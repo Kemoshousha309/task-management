@@ -4,10 +4,11 @@ import { database, storage } from "../../firebaseConfig";
 import { Task } from "../types";
 
 
-export const createTask = async (task: Task, file: File) => {
+export const createTask = async (task: Task) => {
   try {
     // First, upload the image to Firebase Storage and get the URL
-    const imageUrl = await uploadImage(file);
+    const image = task.image[0];
+    const imageUrl = await uploadImage(image);
 
     if (!imageUrl) throw new Error("Image upload failed");
 

@@ -66,3 +66,92 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+
+
+/* General input style */
+input,
+textarea {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 16px;
+  font-family: "Arial", sans-serif;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+}
+
+/* Focus effect */
+input:focus,
+textarea:focus {
+  border-color: #007bff; /* Highlighted border color */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Soft blue glow */
+  background-color: #fff; /* Change background color on focus */
+}
+
+/* Disabled state */
+input[disabled],
+textarea[disabled] {
+  background-color: #e9ecef;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Error state (optional) */
+input.error {
+  border-color: #dc3545; /* Red border for error */
+  background-color: #f8d7da;
+}
+
+input.error:focus {
+  box-shadow: 0 0 5px rgba(220, 53, 69, 0.5); /* Soft red glow */
+}
+
+/* Textarea specific styles */
+textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Base select field styles */
+select {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 16px;
+  font-family: "Arial", sans-serif;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  appearance: none; /* Hides default arrow for customization */
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+/* Add custom arrow (optional) */
+select {
+  background-image: url('data:image/svg+xml;utf8,<svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5H7z" fill="%23000000"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px;
+}
+
+/* Focus state */
+select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  background-color: #fff;
+}
+
+
+
+/* Disabled state */
+select:disabled {
+  background-color: #e9ecef;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
