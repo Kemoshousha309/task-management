@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
-import TasksReducer from "./slices/CreateTask"
+import CreateTask from "./slices/CreateTask"
+import ViewTasks from "./slices/ViewTasks";
 
 export const store = configureStore({
     reducer: {
-        CreateTaskState: TasksReducer,
+        CreateTask,
+        ViewTasks
     },
   })
 

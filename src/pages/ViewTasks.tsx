@@ -1,29 +1,29 @@
-import { useEffect, useState } from 'react'
-import { Task } from '../types';
-import { fetchTasks } from '../CRUD/Tasks';
-
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTasks } from "../CRUD/Tasks";
+import { updateTasks } from "../store/slices/ViewTasks";
+import { AppDispatch, RootState } from "../store/store";
+import ListView from "../Components/ListView";
 
 const ViewTasks = () => {
-    const [tasks, setTasks] = useState<Task[]>([]);
+  const dispatch = useDispatch<AppDispatch>();
+  const { tasks } = useSelector((s: RootState) => s.ViewTasks);
 
   useEffect(() => {
-    fetchTasks(setTasks); // Fetch tasks on component mount
+    fetchTasks((tasks) => {
+      dispatch(updateTasks(tasks));
+    });
   }, []);
 
+  if (!tasks) {
+    return "loading";
+  }
   return (
-    <div>
-      <h1>Task List</h1>
-      {tasks.map((task) => (
-        <div key={task.id}>
-          <h2>{task.title}</h2>
-          <p>{task.description}</p>
-          <p>Priority: {task.priority}</p>
-          <p>Status: {task.state}</p>
-          {task.image && <img src={task.image} alt={task.title} style={{ width: "100px", height: "100px" }} />}
-        </div>
-      ))}
-    </div>
-  ); 
-}
+    <main className="">
+      <h1 className="p-4 ">Task List</h1>
+      <ListView tasks={tasks} />
+    </main>
+  );
+};
 
-export default ViewTasks
+export default ViewTasks;

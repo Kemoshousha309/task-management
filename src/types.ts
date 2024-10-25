@@ -3,7 +3,6 @@ import { InferType } from "yup";
 
 // Define validation schema with Yup
 export const taskSchema = Yup.object().shape({
-  id: Yup.string(),
   title: Yup.string().required("Task title is required"),
   description: Yup.string().required("Description is required"),
   priority: Yup.string()
@@ -12,9 +11,11 @@ export const taskSchema = Yup.object().shape({
   state: Yup.string()
     .oneOf(["todo", "doing", "done"])
     .required("state is required"),
-  image: Yup.mixed<FileList>()
-    .required("An image is required")
-  
+  image: Yup.mixed<FileList>().required("An image is required"),
 });
 
-export type Task = InferType<typeof taskSchema>;
+export type TaskSchema = InferType<typeof taskSchema>;
+export interface TaskResponse extends Omit<TaskSchema, "image"> {
+  id: string; // Include ID in the response
+  image: string; // Image as a string (e.g., URL or base64) in the response
+}

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { createTask } from "../../CRUD/Tasks";
-import { Task } from "../../types";
+import { TaskSchema } from "../../types";
 
 export interface CreateTaskState {
   isCreatingNewTask: boolean, 
@@ -12,7 +12,7 @@ const initialState: CreateTaskState = {
   createError: null
 };
 
-export const counterSlice = createSlice({
+export const CreateTask = createSlice({
   name: "counter",
   initialState,
   reducers: {},
@@ -30,10 +30,9 @@ export const counterSlice = createSlice({
   },
 });
 
-export const createTaskThunk = createAsyncThunk("tasks/createTask", async (data: Task) => {
+export const createTaskThunk = createAsyncThunk("tasks/createTask", async (data: TaskSchema) => {
   return await createTask(data);
 });
 
 // Action creators are generated for each case reducer function
-// export const { } = counterSlice.actions
-export default counterSlice.reducer;
+export default CreateTask.reducer;

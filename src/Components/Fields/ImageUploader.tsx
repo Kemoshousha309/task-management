@@ -1,9 +1,9 @@
 import { ChangeEvent, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 
-const ImageUploader = ({ error, label }: { label: string; error?: string }) => {
+const ImageUploader = ({ error, label, preview }: { label: string; error?: string, preview: string | null }) => {
   const { control } = useFormContext();
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(preview);
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files || event.target.files?.length < 0) return;

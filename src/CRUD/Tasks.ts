@@ -1,10 +1,10 @@
 import { ref, push, onValue, update, remove } from "firebase/database";
 import { ref as storageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 import { database, storage } from "../../firebaseConfig";
-import { Task } from "../types";
+import { TaskResponse, TaskSchema } from "../types";
 
 
-export const createTask = async (task: Task) => {
+export const createTask = async (task: TaskSchema) => {
   try {
     // First, upload the image to Firebase Storage and get the URL
     const image = task.image[0];
@@ -22,7 +22,7 @@ export const createTask = async (task: Task) => {
 };
 
 
-export const fetchTasks = (setTasks: (tasks: Task[]) => void) => {
+export const fetchTasks = (setTasks: (tasks: TaskResponse[]) => void) => {
   const tasksRef = ref(database, "tasks");
   onValue(tasksRef, (snapshot) => {
     const data = snapshot.val();
@@ -35,7 +35,7 @@ export const fetchTasks = (setTasks: (tasks: Task[]) => void) => {
 
 export const updateTask = async (
   taskId: string,
-  updatedTask: Partial<Task>
+  updatedTask: Partial<TaskSchema>
 ) => {
   try {
     const taskRef = ref(database, `tasks/${taskId}`);
