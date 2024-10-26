@@ -4,8 +4,14 @@ import { Controller, FormProvider, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { createTaskThunk, editTaskThunk } from "../store/slices/MutateTask";
 import { AppDispatch, RootState } from "../store/store";
-import { TaskResponse, TaskSchema, taskSchema } from "../types";
-import ImageUploader from "./Fields/ImageUploader";
+import {
+  PriorityEnum,
+  StateEnum,
+  TaskResponse,
+  TaskSchema,
+  taskSchema,
+} from "../types";
+import ImageUploader from "./ImageUploader";
 import { useNavigate } from "react-router-dom";
 
 const TaskForm = ({
@@ -74,7 +80,7 @@ const TaskForm = ({
               />
             )}
           />
-          {errors.title && <p>{errors.title.message}</p>}
+          {errors.title && <p className="text-red-500">{errors.title.message}</p>}
         </div>
 
         <div>
@@ -91,7 +97,7 @@ const TaskForm = ({
               />
             )}
           />
-          {errors.description && <p>{errors.description.message}</p>}
+          {errors.description && <p className="text-red-500">{errors.description.message}</p>}
         </div>
 
         <div>
@@ -99,7 +105,7 @@ const TaskForm = ({
           <Controller
             name="priority"
             control={control}
-            defaultValue="LOW"
+            defaultValue={PriorityEnum.low}
             render={({ field }) => (
               <select {...field} id="priority" value={field.value as string}>
                 <option value="LOW">Low</option>
@@ -108,7 +114,7 @@ const TaskForm = ({
               </select>
             )}
           />
-          {errors.priority && <p>{errors.priority.message}</p>}
+          {errors.priority && <p className="text-red-500">{errors.priority.message}</p>}
         </div>
 
         <div>
@@ -116,7 +122,7 @@ const TaskForm = ({
           <Controller
             name="state"
             control={control}
-            defaultValue="TO DO"
+            defaultValue={StateEnum.todo}
             render={({ field }) => (
               <select {...field} id="state" value={field.value as string}>
                 <option value="TO DO">To Do</option>
@@ -125,20 +131,21 @@ const TaskForm = ({
               </select>
             )}
           />
-          {errors.state && <p>{errors.state.message}</p>}
+          {errors.state && <p className="text-red-500">{errors.state.message}</p>}
         </div>
         <ImageUploader
           preview={defaultValues?.image ?? null}
           label="Upload Image"
           error={errors.image ? errors.image.message : undefined}
         />
-        {isMutatingTask ? (
-          "loading"
-        ) : (
-          <button type="submit">
-            {type === "add" ? "Add Task" : "Edit Task"}
-          </button>
-        )}
+
+        <button type="submit">
+          {isMutatingTask
+            ? "loading"
+            : type === "add"
+            ? "Add Task"
+            : "Edit Task"}
+        </button>
       </form>
     </FormProvider>
   );

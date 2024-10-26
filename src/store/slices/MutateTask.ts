@@ -13,7 +13,7 @@ const initialState: CreateTaskState = {
 };
 
 export const MutateTask = createSlice({
-  name: "counter",
+  name: "mutate-task",
   initialState,
   reducers: {},
   extraReducers: (builder) => {

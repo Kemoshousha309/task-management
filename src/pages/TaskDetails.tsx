@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchTaskById } from "../CRUD/Tasks";
 import { TaskResponse } from "../types";
+import Spinner from "../Components/spinner";
 
 const TaskDetail = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const TaskDetail = () => {
     }
   }, [taskId]);
   if (!task) {
-    return <p>loading</p>;
+    return <div className="w-fit mx-auto my-40 "><Spinner /></div>;
   }
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md m-4">

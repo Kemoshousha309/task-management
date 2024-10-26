@@ -1,6 +1,9 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { PriorityEnum, StateEnum } from "../types";
+import { filterTasks } from "../store/slices/ViewTasks";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../store/store";
 
 export interface Filters {
   name: string;
@@ -8,11 +11,7 @@ export interface Filters {
   state: string;
 }
 
-interface FilterFormProps {
-  onFilter: (filters: Filters) => void; // Modify this type based on your filter structure
-}
-
-const FilterForm: React.FC<FilterFormProps> = ({ onFilter }) => {
+const FilterForm: React.FC = () => {
   const defaultValues = {
     name: "",
     priority: "",
@@ -21,10 +20,11 @@ const FilterForm: React.FC<FilterFormProps> = ({ onFilter }) => {
   const { control, getValues, reset } = useForm({
     defaultValues,
   });
+  const dispatch = useDispatch<AppDispatch>();
 
   // Handler for filtering on change
   const handleChange = (field: keyof Filters) => (value: string) => {
-    onFilter({ ...getValues(), [field]: value });
+    dispatch(filterTasks({ ...getValues(), [field]: value }));
   };
 
   return (

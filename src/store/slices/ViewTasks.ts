@@ -2,12 +2,15 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { TaskResponse } from "../../types";
 import { Filters } from "../../Components/FilterForm";
 
+export type ViewType =  "list" | "kanban";
 export interface ViewTaskState {
   tasks?: TaskResponse[];
   filteredTasks?: TaskResponse[];
+  currentView: ViewType
 }
 
 const initialState: ViewTaskState = {
+  currentView: "list"
 };
 
 export const ViewTasks = createSlice({
@@ -32,9 +35,12 @@ export const ViewTasks = createSlice({
       });
       state.filteredTasks = filtered;
     },
+    switchView: (state, action: PayloadAction<ViewType>) => {
+      state.currentView = action.payload;
+    }
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { updateTasks, filterTasks } = ViewTasks.actions;
+export const { updateTasks, filterTasks, switchView } = ViewTasks.actions;
 export default ViewTasks.reducer;

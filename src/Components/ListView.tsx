@@ -1,15 +1,15 @@
 import React from "react";
-import { PriorityEnum, StateEnum, TaskResponse } from "../types";
+import { PriorityEnum, StateEnum } from "../types";
 import { deleteTask, updateTask } from "../CRUD/Tasks";
 import { useNavigate } from "react-router-dom";
-import Priority from "./Fields/Priority";
-import TaskState from "./Fields/TaskState";
+import Priority from "./Priority";
+import TaskState from "./TaskState";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 
-interface TaskTableProps {
-  tasks: TaskResponse[];
-}
-
-const ListView: React.FC<TaskTableProps> = ({ tasks }) => {
+const ListView: React.FC = () => {
+  const { filteredTasks } = useSelector((s: RootState) => s.ViewTasks);
+  const tasks = filteredTasks!;
   const navigate = useNavigate();
   return (
     <div className="overflow-x-auto">

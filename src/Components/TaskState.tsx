@@ -1,5 +1,5 @@
 import { ChangeEvent } from "react";
-import { StateEnum } from "../../types";
+import { StateEnum } from "../types";
 
 const TaskState = ({
   state,

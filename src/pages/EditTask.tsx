@@ -3,6 +3,7 @@ import TaskForm from "../Components/TaskForm";
 import { fetchTaskById } from "../CRUD/Tasks";
 import { useQuery } from "../hooks/useQuery";
 import { TaskResponse } from "../types";
+import Spinner from "../Components/spinner";
 
 
 const EditTask = () => {
@@ -18,7 +19,7 @@ const EditTask = () => {
     }
   }, [taskId]);
   if (!task) {
-    return <p>loading</p>;
+    return <div className="w-fit mx-auto my-40 "><Spinner /></div>;
   }
   return (
     <main className="p-4">

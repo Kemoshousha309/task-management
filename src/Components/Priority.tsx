@@ -1,5 +1,5 @@
 import { ChangeEvent } from "react";
-import { PriorityEnum } from "../../types";
+import { PriorityEnum } from "../types";
 
 const Priority = ({
   priority,
