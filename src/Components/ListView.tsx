@@ -37,6 +37,7 @@ const ListView: React.FC = () => {
           {tasks.map((task) => (
             <tr
               key={task.id}
+              onClick={() => navigate(`/task/${task.id}`)}
               className="border-t border-gray-200 hover:bg-gray-100 transition-colors cursor-pointer"
             >
               <td className="px-6 py-4">{task.title}</td>
@@ -56,9 +57,9 @@ const ListView: React.FC = () => {
               <td>
                 <TaskState
                   state={task.state}
-                  onChange={(e) =>
-                    updateTask(task.id, { state: e.target.value as StateEnum })
-                  }
+                  onChange={(e) => {
+                    updateTask(task.id, { state: e.target.value as StateEnum });
+                  }}
                 />
               </td>
               <td className="px-6 py-4">
@@ -74,19 +75,22 @@ const ListView: React.FC = () => {
               </td>
               <td className="py-4 flex space-x-2">
                 <button
-                  onClick={() => navigate(`/edit-task?id=${task.id}`)}
-                  className=" py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/edit-task?id=${task.id}`);
+                  }}
+                  className="text-blue-500 hover:text-blue-700 text-sm"
                 >
                   Edit
                 </button>
                 <button
-                  onClick={() => deleteTask(task.id)}
-                  className=" py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteTask(task.id);
+                  }}
+                  className="text-red-500 hover:text-red-700 text-sm"
                 >
                   Delete
-                </button>
-                <button onClick={() => navigate(`/task/${task.id}`)}>
-                  show
                 </button>
               </td>
             </tr>

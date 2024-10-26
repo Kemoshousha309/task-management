@@ -8,6 +8,8 @@ import ViewSwitcher from "../Components/ViewSwitcher";
 import { fetchTasks } from "../CRUD/Tasks";
 import { updateTasks } from "../store/slices/ViewTasks";
 import { AppDispatch, RootState } from "../store/store";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 const ViewTasks = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -20,7 +22,6 @@ const ViewTasks = () => {
       dispatch(updateTasks(tasks));
     });
   }, []);
-
 
   if (!tasks || !filteredTasks) {
     return (
@@ -37,8 +38,14 @@ const ViewTasks = () => {
         <FilterForm />
         <ViewSwitcher />
       </div>
-      {currentView == "list" && <ListView  />}
-      {currentView == "kanban" && <KanbanView />}
+      {currentView == "list" && <ListView />}
+      {currentView == "kanban" && (
+        <DndProvider backend={HTML5Backend}>
+          <div className="p-8">
+            <KanbanView />
+          </div>
+        </DndProvider>
+      )}
     </main>
   );
 };
