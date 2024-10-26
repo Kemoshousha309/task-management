@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchTaskById } from "../CRUD/Tasks";
+import { fetchTaskById } from "../API/Tasks";
 import { TaskResponse } from "../types";
 import Spinner from "../Components/spinner";
 

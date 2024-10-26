@@ -2,7 +2,7 @@ import React from "react";
 import { useDrop } from "react-dnd";
 import TaskCard from "./TaskCard";
 import { StateEnum, TaskResponse } from "../types";
-import { updateTask } from "../CRUD/Tasks";
+import { updateTask } from "../API/Tasks";
 
 type KanbanColumnProps = {
   stage: StateEnum;

@@ -13,8 +13,8 @@ const initialState: ViewTaskState = {
   currentView: "list"
 };
 
-export const ViewTasks = createSlice({
-  name: "viewTasks",
+export const Auth = createSlice({
+  name: "auth",
   initialState,
   reducers: {
     updateTasks: (state, action: PayloadAction<TaskResponse[]>) => {
@@ -42,5 +42,5 @@ export const ViewTasks = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { updateTasks, filterTasks, switchView } = ViewTasks.actions;
-export default ViewTasks.reducer;
+export const { updateTasks, filterTasks, switchView } = Auth.actions;
+export default Auth.reducer;

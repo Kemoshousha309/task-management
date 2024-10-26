@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { createTask, updateTask } from "../../CRUD/Tasks";
+import { createTask, updateTask } from "../../API/Tasks";
 import { TaskSchema } from "../../types";
 
 export interface CreateTaskState {

@@ -1,15 +1,26 @@
-import { ref, push, onValue, update, remove, get } from "firebase/database";
+import { getAuth } from "firebase/auth"; // Import getAuth to get the current user
+import { get, onValue, push, ref, remove, update } from "firebase/database";
 import {
+  getDownloadURL,
   ref as storageRef,
   uploadBytes,
-  getDownloadURL,
 } from "firebase/storage";
 import { database, storage } from "../../firebaseConfig";
 import { TaskResponse, TaskSchema } from "../types";
 
+function checkAuth() {
+  const user = getAuth().currentUser; // Get the current user
+  if (!user) {
+    location.replace("/signup");
+  }
+  return user;
+}
+
 export const createTask = async (task: TaskSchema) => {
+  const user = checkAuth();
+  if(!user) return;
   try {
-    // First, upload the image to Firebase Storage and get the URL
+    // Upload image to Firebase Storage and get the URL
     let imageUrl: string | null = null;
     if (task.image) {
       const image = task.image[0];
@@ -18,8 +29,8 @@ export const createTask = async (task: TaskSchema) => {
       if (!imageUrl) throw new Error("Image upload failed");
     }
 
-    // Now, create the task with the image URL
-    const tasksRef = ref(database, "tasks");
+    // Create task reference for the authenticated user
+    const tasksRef = ref(database, `users/${user.uid}/tasks`);
     await push(tasksRef, { ...task, image: imageUrl });
   } catch (error) {
     console.error("Error creating task with image: ", error);
@@ -27,7 +38,10 @@ export const createTask = async (task: TaskSchema) => {
 };
 
 export const fetchTasks = (setTasks: (tasks: TaskResponse[]) => void) => {
-  const tasksRef = ref(database, "tasks");
+  const user = checkAuth();
+  if(!user) return;
+
+  const tasksRef = ref(database, `users/${user.uid}/tasks`);
   onValue(tasksRef, (snapshot) => {
     const data = snapshot.val();
     const tasksArray = data
@@ -41,6 +55,9 @@ export const updateTask = async (
   taskId: string,
   updatedTask: Partial<TaskSchema>
 ) => {
+  const user = checkAuth();
+  if(!user) return;
+
   try {
     let imageUrl: string | null = null;
 
@@ -58,7 +75,7 @@ export const updateTask = async (
       ...(imageUrl && { image: imageUrl }), // Only update the image if a new URL is available
     };
 
-    const taskRef = ref(database, `tasks/${taskId}`);
+    const taskRef = ref(database, `users/${user.uid}/tasks/${taskId}`);
     await update(taskRef, taskUpdates);
   } catch (error) {
     console.error("Error updating task: ", error);
@@ -66,8 +83,11 @@ export const updateTask = async (
 };
 
 export const deleteTask = async (taskId: string) => {
+  const user = checkAuth();
+  if(!user) return;
+
   try {
-    const taskRef = ref(database, `tasks/${taskId}`);
+    const taskRef = ref(database, `users/${user.uid}/tasks/${taskId}`);
     await remove(taskRef);
   } catch (error) {
     console.error("Error deleting task: ", error);
@@ -95,8 +115,12 @@ export const uploadImage = async (file: File) => {
 export const fetchTaskById = async (
   taskId: string
 ): Promise<TaskResponse | null> => {
+  const user = checkAuth();
+  if(!user) return null;
+
   try {
-    const taskRef = ref(database, `tasks/${taskId}`);
+    // Construct the reference to the task for the authenticated user
+    const taskRef = ref(database, `users/${user.uid}/tasks/${taskId}`);
     const snapshot = await get(taskRef);
 
     if (snapshot.exists()) {

@@ -1,6 +1,6 @@
 import React from "react";
 import { PriorityEnum, StateEnum } from "../types";
-import { deleteTask, updateTask } from "../CRUD/Tasks";
+import { deleteTask, updateTask } from "../API/Tasks";
 import { useNavigate } from "react-router-dom";
 import Priority from "./Priority";
 import TaskState from "./TaskState";
@@ -58,6 +58,7 @@ const ListView: React.FC = () => {
                 <TaskState
                   state={task.state}
                   onChange={(e) => {
+                    e.stopPropagation();
                     updateTask(task.id, { state: e.target.value as StateEnum });
                   }}
                 />

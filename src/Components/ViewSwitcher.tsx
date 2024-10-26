@@ -7,11 +7,11 @@ const ViewSwitcher = () => {
     const currentView = useSelector((s: RootState) => s.ViewTasks.currentView)
 
   return (
-    <div className="flex gap-3 items-center">
+    <div className="flex items-center flex-col mx-4">
       <label className="whitespace-nowrap" htmlFor="view">
-        select View
+        Select View
       </label>
-      <select id="view" defaultValue={currentView} onChange={(e) => {
+      <select id="view" defaultValue={currentView} className="min-w-28" onChange={(e) => {
         dispatch(switchView(e.target.value as ViewType))
       }}>
         <option value="list">List</option>

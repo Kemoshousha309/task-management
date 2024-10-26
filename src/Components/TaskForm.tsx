@@ -141,7 +141,7 @@ const TaskForm = ({
 
         <button type="submit">
           {isMutatingTask
-            ? "loading"
+            ? "loading ..."
             : type === "add"
             ? "Add Task"
             : "Edit Task"}

@@ -8,12 +8,13 @@ import { Provider } from "react-redux";
 import { store } from "./store/store";
 import EditTask from "./pages/EditTask";
 import TaskDetail from "./pages/TaskDetails";
-import Layout from "./Components/Layout";
+import Singup from "./pages/Singup";
+import App from "./App";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />, // Use Layout for all routes
+    element: <App />, 
     children: [
       {
         index: true, // Default route for "/"
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "task/:taskId",
         element: <TaskDetail />,
+      },
+      {
+        path: "signup",
+        element: <Singup />,
       },
     ],
   },

@@ -1,7 +1,7 @@
 import { useDrag } from "react-dnd";
 import { TaskResponse } from "../types";
 import { useNavigate } from "react-router-dom";
-import { deleteTask } from "../CRUD/Tasks";
+import { deleteTask } from "../API/Tasks";
 
 const TaskCard = ({ task }: { task: TaskResponse }) => {
   const { image, title, description, priority } = task;
