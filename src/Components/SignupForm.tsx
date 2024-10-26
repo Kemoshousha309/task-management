@@ -35,20 +35,20 @@ const SignupForm: React.FC = () => {
 
   const onSubmit = async (data: SignupFormValues) => {
     setIsSubmitting(true);
-    setSubmitError("")
+    setSubmitError("");
     try {
       if (type === "login") {
         await loginEmailPassword(data.email, data.password);
-        navigate("/");
       } else {
         await singupEmailPassword(data.email, data.password);
       }
+      navigate("/");
     } catch (err) {
       const error = err as AuthError;
       if (error.code == "auth/invalid-credential") {
         setSubmitError("Wrong Email or Password, Try Again!");
-      }else if (error.code == "auth/email-already-in-use" ) {
-        setSubmitError("This Email is already, Try to login instead!")
+      } else if (error.code == "auth/email-already-in-use") {
+        setSubmitError("This Email is already, Try to login instead!");
       }
     } finally {
       setIsSubmitting(false);
@@ -110,7 +110,11 @@ const SignupForm: React.FC = () => {
             type="submit"
             className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-200"
           >
-            {isSubmitting ? "loading ..." : type === "login" ? "Log In" : "Sign Up"}
+            {isSubmitting
+              ? "loading ..."
+              : type === "login"
+              ? "Log In"
+              : "Sign Up"}
           </button>
         </form>
         {/* Toggle Button */}
@@ -118,8 +122,8 @@ const SignupForm: React.FC = () => {
           <button
             type="button"
             onClick={() => {
-                setType(type === "login" ? "signup" : "login")
-                setSubmitError('')
+              setType(type === "login" ? "signup" : "login");
+              setSubmitError("");
             }}
             className="text-blue-500 hover:underline focus:outline-none"
           >

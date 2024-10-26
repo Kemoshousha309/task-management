@@ -16,17 +16,25 @@ const TaskCard = ({ task }: { task: TaskResponse }) => {
   return (
     <div
       ref={dragRef}
-      className={`bg-white cursor-pointer rounded-lg shadow-md p-4 mb-4 ${isDragging ? "opacity-50" : "opacity-100"}`}
+      className={`bg-white cursor-pointer rounded-lg shadow-md p-4 mb-4 ${
+        isDragging ? "opacity-50" : "opacity-100"
+      }`}
       onClick={() => navigate(`/task/${task.id}`)}
     >
-      <img src={image} alt={`${title} thumbnail`} className="w-full h-32 object-cover rounded-md mb-3" />
+      {image && (
+        <img
+          src={image}
+          alt={`${title} thumbnail`}
+          className="w-full h-32 object-cover rounded-md mb-3"
+        />
+      )}
       <div className="flex justify-between items-center">
         <h3 className="text-lg font-semibold">{title}</h3>
         <div className="flex gap-2">
           <button
             onClick={(e) => {
               e.stopPropagation();
-              navigate(`/edit-task?id=${task.id}`)
+              navigate(`/edit-task?id=${task.id}`);
             }}
             className="text-blue-500 hover:text-blue-700 text-sm"
           >
@@ -35,7 +43,7 @@ const TaskCard = ({ task }: { task: TaskResponse }) => {
           <button
             onClick={(e) => {
               e.stopPropagation();
-              deleteTask(task.id)
+              deleteTask(task.id);
             }}
             className="text-red-500 hover:text-red-700 text-sm"
           >
@@ -44,7 +52,9 @@ const TaskCard = ({ task }: { task: TaskResponse }) => {
         </div>
       </div>
       <p className="text-gray-600">{description}</p>
-      <p className="mt-2 text-sm font-medium text-blue-500">Priority: {priority}</p>
+      <p className="mt-2 text-sm font-medium text-blue-500">
+        Priority: {priority}
+      </p>
     </div>
   );
 };

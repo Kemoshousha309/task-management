@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchTaskById } from "../API/Tasks";
+import { deleteTask, fetchTaskById } from "../API/Tasks";
 import { TaskResponse } from "../types";
-import Spinner from "../Components/spinner";
+import Spinner from "../Components/Spinner";
 
 const TaskDetail = () => {
   const navigate = useNavigate();
@@ -17,19 +17,21 @@ const TaskDetail = () => {
     }
   }, [taskId]);
   if (!task) {
-    return <div className="w-fit mx-auto my-40 "><Spinner /></div>;
+    return (
+      <div className="w-fit mx-auto my-40 ">
+        <Spinner />
+      </div>
+    );
   }
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md m-4">
       <h1 className="text-2xl font-bold mb-4">{task.title}</h1>
-      {task.image ? (
+      {task.image && (
         <img
           src={task.image}
           alt={task.title}
           className="w-full h-64 object-cover rounded-lg mb-4"
         />
-      ) : (
-        <span>No Image Provided</span>
       )}
       <div className="mb-4">
         <span className="text-gray-500 font-semibold">Description:</span>
@@ -63,12 +65,23 @@ const TaskDetail = () => {
           {task.state}
         </p>
       </div>
-      <div className="flex justify-end">
+      <div className="flex justify-end gap-4">
         <button
-          onClick={() => navigate(`/edit-task?id=${task.id}`)}
-          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+          onClick={() => {
+            navigate(`/edit-task?id=${task.id}`);
+          }}
+          className="text-blue-500 hover:text-blue-700 text-sm"
         >
-          Edit Task
+          Edit
+        </button>
+        <button
+          onClick={() => {
+            deleteTask(task.id);
+            navigate(`/`);
+          }}
+          className="text-red-500 hover:text-red-700 text-sm"
+        >
+          Delete
         </button>
       </div>
     </div>
