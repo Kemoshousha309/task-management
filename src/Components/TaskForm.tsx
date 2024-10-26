@@ -1,17 +1,29 @@
 // AddTask.tsx
 import { yupResolver } from "@hookform/resolvers/yup";
-import React from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
-import { Task, taskSchema } from "../types";
-import ImageUploader from "./Fields/ImageUploader";
 import { useDispatch, useSelector } from "react-redux";
-import { createTaskThunk } from "../store/slices/CreateTask";
+import { createTaskThunk, editTaskThunk } from "../store/slices/MutateTask";
 import { AppDispatch, RootState } from "../store/store";
+import { TaskResponse, TaskSchema, taskSchema } from "../types";
+import ImageUploader from "./Fields/ImageUploader";
+import { useNavigate } from "react-router-dom";
 
-const TaskForm: React.FC = () => {
+const TaskForm = ({
+  defaultValues,
+  type,
+}: {
+  defaultValues?: TaskResponse;
+  type: "add" | "edit";
+}) => {
   // Initialize useForm hook with validation resolver
-  const formMethods = useForm<Task>({
+  const formMethods = useForm<TaskSchema>({
     resolver: yupResolver(taskSchema),
+    defaultValues: {
+      description: defaultValues?.description,
+      priority: defaultValues?.priority,
+      state: defaultValues?.state,
+      title: defaultValues?.title,
+    },
   });
   const {
     control,
@@ -19,14 +31,25 @@ const TaskForm: React.FC = () => {
     formState: { errors },
   } = formMethods;
 
+  const navigate = useNavigate();
+
   const dispatch = useDispatch<AppDispatch>();
-  const { createError, isCreatingNewTask } = useSelector(
-    (s: RootState) => s.CreateTaskState
+  const { createError, isMutatingTask } = useSelector(
+    (s: RootState) => s.MutateTask
   );
 
   // Handle form submission
-  const onSubmit = async (data: Task) => {
-    await dispatch(createTaskThunk(data)).unwrap();
+  const onSubmit = async (data: TaskSchema) => {
+    if (type == "add") {
+      await dispatch(createTaskThunk(data)).unwrap();
+    } else {
+      if (defaultValues) {
+        await dispatch(
+          editTaskThunk({ id: defaultValues.id, updatedData: data })
+        ).unwrap();
+      }
+    }
+    navigate("/");
   };
 
   return (
@@ -76,12 +99,12 @@ const TaskForm: React.FC = () => {
           <Controller
             name="priority"
             control={control}
-            defaultValue="medium"
+            defaultValue="LOW"
             render={({ field }) => (
               <select {...field} id="priority" value={field.value as string}>
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
+                <option value="LOW">Low</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="HIGH">High</option>
               </select>
             )}
           />
@@ -93,25 +116,28 @@ const TaskForm: React.FC = () => {
           <Controller
             name="state"
             control={control}
-            defaultValue="todo"
+            defaultValue="TO DO"
             render={({ field }) => (
               <select {...field} id="state" value={field.value as string}>
-                <option value="todo">To Do</option>
-                <option value="doing">Doing</option>
-                <option value="done">Done</option>
+                <option value="TO DO">To Do</option>
+                <option value="DOING">Doing</option>
+                <option value="DONE">Done</option>
               </select>
             )}
           />
           {errors.state && <p>{errors.state.message}</p>}
         </div>
         <ImageUploader
+          preview={defaultValues?.image ?? null}
           label="Upload Image"
           error={errors.image ? errors.image.message : undefined}
         />
-        {isCreatingNewTask ? (
+        {isMutatingTask ? (
           "loading"
         ) : (
-          <button type="submit">Add Task</button>
+          <button type="submit">
+            {type === "add" ? "Add Task" : "Edit Task"}
+          </button>
         )}
       </form>
     </FormProvider>

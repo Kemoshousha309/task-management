@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
-import CreateTask from "./slices/CreateTask"
+import MutateTask from "./slices/MutateTask"
 import ViewTasks from "./slices/ViewTasks";
 
 export const store = configureStore({
     reducer: {
-        CreateTask,
+      MutateTask,
         ViewTasks
     },
   })
