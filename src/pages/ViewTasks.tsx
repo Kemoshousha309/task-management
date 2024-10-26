@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useDispatch, useSelector } from "react-redux";
-import { getUser } from "../API/Auth";
 import { fetchTasks } from "../API/Tasks";
 import FilterForm from "../Components/FilterForm";
 import KanbanView from "../Components/KanbanView";
@@ -39,9 +38,6 @@ const ViewTasks = () => {
     <main className="">
       <h1
         className="p-4 "
-        onClick={() => {
-          getUser().then((u) => console.log(u));
-        }}
       >
         Task View
       </h1>
