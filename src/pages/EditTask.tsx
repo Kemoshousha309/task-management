@@ -3,7 +3,7 @@ import TaskForm from "../Components/TaskForm";
 import { fetchTaskById } from "../API/Tasks";
 import { useQuery } from "../hooks/useQuery";
 import { TaskResponse } from "../types";
-import Spinner from "../Components/spinner";
+import Spinner from "../Components/Spinner";
 
 
 const EditTask = () => {

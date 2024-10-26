@@ -6,10 +6,10 @@ import { fetchTasks } from "../API/Tasks";
 import FilterForm from "../Components/FilterForm";
 import KanbanView from "../Components/KanbanView";
 import ListView from "../Components/ListView";
-import Spinner from "../Components/Spinner";
 import ViewSwitcher from "../Components/ViewSwitcher";
 import { updateTasks } from "../store/slices/ViewTasks";
 import { AppDispatch, RootState } from "../store/store";
+import Spinner from "../Components/Spinner";
 
 const ViewTasks = () => {
   const dispatch = useDispatch<AppDispatch>();
